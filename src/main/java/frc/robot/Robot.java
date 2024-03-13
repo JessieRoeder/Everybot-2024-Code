@@ -37,10 +37,10 @@ public class Robot extends TimedRobot {
    * The rookie kit comes with CIMs which are brushed motors.
    * Use the appropriate other class if you are using different controllers.
    */
-  CANSparkBase leftRear = new CANSparkMax(1, MotorType.kBrushed);
-  CANSparkBase leftFront = new CANSparkMax(2, MotorType.kBrushed);
-  CANSparkBase rightRear = new CANSparkMax(3, MotorType.kBrushed);
-  CANSparkBase rightFront = new CANSparkMax(4, MotorType.kBrushed);
+  CANSparkBase leftRear = new CANSparkMax(1, MotorType.kBrushless);
+  CANSparkBase leftFront = new CANSparkMax(2, MotorType.kBrushless);
+  CANSparkBase rightRear = new CANSparkMax(3, MotorType.kBrushless);
+  CANSparkBase rightFront = new CANSparkMax(4, MotorType.kBrushless);
 
   /*
    * A class provided to control your drivetrain. Different drive styles can be passed to differential drive:
@@ -56,8 +56,8 @@ public class Robot extends TimedRobot {
    *
    * Both of the motors used on the KitBot launcher are CIMs which are brushed motors
    */
-  CANSparkBase m_launchWheel = new CANSparkMax(6, MotorType.kBrushed);
-  CANSparkBase m_feedWheel = new CANSparkMax(5, MotorType.kBrushed);
+  CANSparkBase m_launchWheel = new CANSparkMax(6, MotorType.kBrushless);
+  CANSparkBase m_feedWheel = new CANSparkMax(5, MotorType.kBrushless);
 
   /**
    * Roller Claw motor controller instance.
@@ -89,12 +89,12 @@ public class Robot extends TimedRobot {
  /**
    * How many amps can an individual drivetrain motor use.
    */
-  static final int DRIVE_CURRENT_LIMIT_A = 60;
+  static final int DRIVE_CURRENT_LIMIT_A = 40;
 
   /**
    * How many amps the feeder motor can use.
    */
-  static final int FEEDER_CURRENT_LIMIT_A = 60;
+  static final int FEEDER_CURRENT_LIMIT_A = 40;
 
   /**
    * Percent output to run the feeder when expelling note
@@ -182,8 +182,8 @@ public class Robot extends TimedRobot {
      *
      * Add white tape to wheel to help determine spin direction.
      */
-    m_feedWheel.setInverted(true);
-    m_launchWheel.setInverted(true);
+    m_feedWheel.setInverted(false);
+    m_launchWheel.setInverted(false);
 
     /*
      * Apply the current limit to the launching mechanism
