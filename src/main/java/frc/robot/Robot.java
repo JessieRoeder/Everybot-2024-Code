@@ -78,10 +78,10 @@ public class Robot extends TimedRobot {
    *
    * Buttons index from 0
    */
-  Joystick m_driverController = new Joystick(0);
+  //Joystick m_driverController = new Joystick(0);
 
 
-  Joystick m_manipController = new Joystick(1);
+  Joystick m_manipController = new Joystick(0);
 
 
   // --------------- Magic numbers. Use these to adjust settings. ---------------
@@ -446,7 +446,7 @@ public class Robot extends TimedRobot {
      * This was setup with a logitech controller, note there is a switch on the back of the
      * controller that changes how it functions
      */
-    m_drivetrain.arcadeDrive(-m_driverController.getRawAxis(1), -m_driverController.getRawAxis(4), false);
+    m_drivetrain.arcadeDrive(-m_m_manipController.getRawAxis(1), -m_m_manipController.getRawAxis(4), false);
   }
 }
 
