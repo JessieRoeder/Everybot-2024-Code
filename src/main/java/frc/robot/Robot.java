@@ -356,11 +356,11 @@ public class Robot extends TimedRobot {
     /*
      * Spins feeder wheel, wait for launch wheel to spin up to full speed for best results
      */
-    if (m_manipController.getRawButton(6))
+    if (m_manipController.getRawButton(8))
     {
       m_feedWheel.set(FEEDER_OUT_SPEED);
     }
-    else if(m_manipController.getRawButtonReleased(6))
+    else if(m_manipController.getRawButtonReleased(8))
     {
       m_feedWheel.set(0);
     }
@@ -446,7 +446,7 @@ public class Robot extends TimedRobot {
      * This was setup with a logitech controller, note there is a switch on the back of the
      * controller that changes how it functions
      */
-    m_drivetrain.arcadeDrive(-m_m_manipController.getRawAxis(1), -m_m_manipController.getRawAxis(4), false);
+    m_drivetrain.arcadeDrive(-m_manipController.getRawAxis(1), -m_manipController.getRawAxis(4), false);
   }
 }
 
