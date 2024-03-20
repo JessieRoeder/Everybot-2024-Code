@@ -172,8 +172,8 @@ public class Robot extends TimedRobot {
     /*
      * One side of the drivetrain must be inverted, as the motors are facing opposite directions
      */
-    leftFront.setInverted(true);
-    rightFront.setInverted(false);
+    leftFront.setInverted(false);
+    rightFront.setInverted(true);
 
     m_drivetrain = new DifferentialDrive(leftFront, rightFront);
 
