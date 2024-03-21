@@ -7,8 +7,8 @@ package frc.robot;
 // Imports that allow the usage of REV Spark Max motor controllers
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import edu.wpi.first.net.PortForwarder;
 
 
 public class Robot extends TimedRobot {
@@ -28,6 +30,7 @@ public class Robot extends TimedRobot {
   private static final String kDrive = "drive";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  double slowfactor = 1;
 
   /*
    * Drive motor controller instances.
@@ -89,12 +92,12 @@ public class Robot extends TimedRobot {
  /**
    * How many amps can an individual drivetrain motor use.
    */
-  static final int DRIVE_CURRENT_LIMIT_A = 40;
+  static final int DRIVE_CURRENT_LIMIT_A = 60;
 
   /**
    * How many amps the feeder motor can use.
    */
-  static final int FEEDER_CURRENT_LIMIT_A = 40;
+  static final int FEEDER_CURRENT_LIMIT_A = 60;
 
   /**
    * Percent output to run the feeder when expelling note
@@ -152,6 +155,15 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("launch", kLaunch);
     m_chooser.addOption("drive", kDrive);
     SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.putNumber("speed_lowering_factor", 1);
+    slowfactor = SmartDashboard.getNumber("speed_lowering_factor", 1);
+
+    // Make sure you only configure port forwarding once in your robot code.
+    // Do not place these function calls in any periodic functions
+    for (int port = 5800; port <= 5807; port++) 
+    {
+      PortForwarder.add(port, "limelight.local", port);
+    }
 
 
 
@@ -242,6 +254,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autoSelected = m_chooser.getSelected();
+    slowfactor = SmartDashboard.getNumber("speed_lowering_factor", 1);
 
     leftRear.setIdleMode(IdleMode.kBrake);
     leftFront.setIdleMode(IdleMode.kBrake);
@@ -341,6 +354,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+
+    slowfactor = SmartDashboard.getNumber("speed_lowering_factor", 1);
 
     /*
      * Spins up the launcher wheel
@@ -446,7 +461,7 @@ public class Robot extends TimedRobot {
      * This was setup with a logitech controller, note there is a switch on the back of the
      * controller that changes how it functions
      */
-    m_drivetrain.arcadeDrive(-m_manipController.getRawAxis(1), -m_manipController.getRawAxis(4), false);
+    m_drivetrain.arcadeDrive(-m_manipController.getRawAxis(1)*slowfactor, -m_manipController.getRawAxis(4)*slowfactor, false);
   }
 }
 
